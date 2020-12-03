@@ -6,16 +6,14 @@ import smtplib
 def send_credentials(mail):
     studentdata = db.session.query(StudentReg).filter(StudentReg.mail == mail).all() 
     staffdata = db.session.query(StaffReg).filter(StaffReg.mail == mail).all()
+    username = None
+    password = None
     if len(studentdata)==1:
         username = studentdata[0].rollno
         password = studentdata[0].password
-        print(username,password)
-        #return True
     if len(staffdata)==1:
         username = staffdata[0].staff_id
         password = staffdata[0].password
-        print(username,password)
-        #return True
     if username and password:
         email=mail
         s = smtplib.SMTP('smtp.gmail.com', 587) 
@@ -33,4 +31,6 @@ def send_credentials(mail):
         s.sendmail("frontyard.hotel.bi@gmail.com", email, msg.as_string()) 
         s.quit()
         msg="check the mail"
-        return "success"
+        return True
+    else:
+        return False

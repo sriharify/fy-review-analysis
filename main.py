@@ -108,7 +108,10 @@ def student_login():
 def forget_cred():
     mail = request.form['email']
     status = send_credentials(mail)
-    return {'':status}
+    if status:
+        return {'desc':"check your mail"}
+    else:
+        return {'desc':"There is no account linked with this email ID , please enter a registered email ID"}
 
 
     
