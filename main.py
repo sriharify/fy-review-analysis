@@ -1,11 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from modules.login_val import student_login_validation,staff_login_validation
 from modules.registration import student_registration,staff_registration
+from modules.sendmail import send_credentials
 from flask import render_template,request,jsonify, make_response
 from lib import app
 
 @app.route("/register_staff",methods=['POST'])
-def staff_registration():
+def staff_reg():
     staff_id = request.form['staff_id']
     name = request.form['name']
     mail = request.form['mail']
@@ -32,7 +33,7 @@ def staff_registration():
         ), 200)
 
 @app.route("/register_student",methods=['POST'])
-def student_registration():
+def student_reg():
     rollno = request.form['rollno']
     name = request.form['name']
     mail = request.form['mail']
@@ -102,5 +103,13 @@ def student_login():
                 'result' : {}
             }
         ), 200)
+
+@app.route('/forget_credentials',methods=['Post'])
+def forget_cred():
+    mail = request.form['email']
+    status = send_credentials(mail)
+    return {'':status}
+
+
     
     
